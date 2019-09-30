@@ -1,0 +1,321 @@
+<div class="main">
+	<button type="button" id="btn_add" class="btn btn-primary float-right"  data-target="#exampleModal" data-toggle="modal">
+	 	 添加客服
+ 	</button>
+ 	<button type="button" id="btn_return" class="btn btn-primary float-right"  data-target="#exampleModal" data-toggle="modal">
+	 	 返回
+ 	</button>
+ 	
+	<div class="row">
+		
+ 		<div class="select col-2">
+			 <div class="form-group ">
+			      <select id="status" class="form-control select_d">
+			     	 <option value="在线" selected="">在线</option>
+			     	 <option value="离线">离线</option>
+			      </select>
+		      </div>
+		</div>
+ 	  	<div class="select col-2">
+			 <div class="form-group ">
+			      <select id="gender" class="form-control select_d">
+			     	 <option selected>性别</option>
+			     	 <option value="男">男</option>
+			     	 <option value="女">女</option>
+			      </select>
+		      </div>
+		</div>
+		<span class="d-inline-block">(当前标准为</span>
+		<span class="total d-inline-block border rounded text-center"></span><span class="d-inline-block">人)</span>
+		<div class="col-3"></div>
+		<!-- 关键字查询 -->
+		<form class="form-inline my-2 my-lg-0 folat-right">
+		    <input class="form-control mr-sm-2" type="search" placeholder="输入用户名" id="search">
+		    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    	</form>
+   
+	</div>
+	<table class="table text-center">
+		  <thead class="thead-dark ">
+		    <tr>
+		      <th scope="col">#</th>
+		      <th scope="col">用户名</th>
+		      <th scope="col">姓名</th>
+		      <th scope="col">性别</th>
+		      <th scope="col">状态</th>
+		     
+		      <th scope="col">操作</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+			   
+		  </tbody>
+	</table>
+	<div class="modal" tabindex="-1" role="dialog" id="modal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Modal title</h5>
+        <button type="button" class="closes close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>查询的用户不存在.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary closes" data-dismiss="modal">关闭</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 表单 -->
+<div class="modal fade" id="exampleModal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+       	<!-- 表单开始 -->
+       	<form>
+       	<input type="hidden" id="id">
+		
+		   <div class="form-group row">
+		    <label for="contactPhone" class="col-sm-2 col-form-label">电话号码</label>
+		    <div class="col-sm-10">
+		      <input type="text" class="form-control" id="contactPhone" placeholder="contactPhone">
+		    </div>
+		  </div>
+		   <div class="form-group row">
+		    <label for="inputname" class="col-sm-2 col-form-label">姓名</label>
+		    <div class="col-sm-10">
+		      <input type="text" class="form-control" id="inputname" placeholder="姓名">
+		    </div>
+		  </div>
+		  <div class="form-group row">
+		    <label for="scale" class="col-sm-2 col-form-label">性别</label>
+		    <div class="col-sm-10">
+		     	<div class="row">
+		    		<div class="col-4 text-center">
+		    			<input class="form-check-input" type="radio" name="exampleRadios"  value="男">
+					  <label class="form-check-label" for="gender">
+					   男
+					  </label>
+		    		</div>
+				 	<div class="col-4">
+				 		 <input class="form-check-input" type="radio" name="exampleRadios"  value="女" checked>
+					  <label class="form-check-label" for="gender" >
+					   女
+					  </label>
+				 	</div>
+				</div>
+		    </div>
+		  </div>
+		
+		</form>
+       	<!-- 表单结束 -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary btn_input">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<style>
+	.main>.row>span{
+		line-height: 3em;
+	}
+	.main>.row>.total{
+		width: 60px;
+		height: 2em;
+		line-height: 2em;
+		margin-top: 10px;
+
+	}
+	#btn_return{
+		display: none;
+		margin-right: 10px;
+	}
+	.modal{
+		margin-top: 60px;
+	}
+	.modal-backdrop{
+		z-index: -1;
+	}
+</style>
+<script>
+	$(function(){
+		var baseURL="http://203.195.246.58:7777";
+		function reload(){
+
+			var url=baseURL+"/CustomerService/findAll";
+			$.get(url,function(response){
+				$("tbody").empty()
+				var count=0;
+				response.data.forEach(function(item){
+					count++;
+					$(`<tr>
+							<td><input type="checkbox" value="`+item.id+`"/></td>
+							<td>`+item.username+`</td>
+							<td>`+item.realname+`</td>
+							<td>`+item.gender+`</td>
+							<td>`+item.status+`</td>
+							
+							<td><i class="fa fa-trash" aria-hidden="true"></i></td>
+					   </tr>
+						`).appendTo($("tbody"));
+				})
+				$(".total").text(count);
+			})
+		}
+		reload();
+		// 删除
+		$("tbody").on("click","i",function(){
+			// alert(1);
+			var url=baseURL+"/CustomerService/deleteById";
+			var id=$(this).parents("tr").children().eq(0).find("input").val();
+			var data={
+				id:id,
+			}
+			$.post(url,data,function(response){
+				if(response.status===200){
+
+				}else{
+					console.log(response)
+				}
+				reload();
+			})
+
+		})
+		//在线筛选 性别筛选
+		$("select").on("click","option",function(){
+			$("#btn_return").css("display","block")
+			switch($(this).parents("select").attr("id")){
+				case "gender":var url=baseURL+"/CustomerService/findByGender";
+					var data={
+						gender:$(this).val(),
+					}
+					
+					$.get(url,data,function(response){
+						$("tbody").empty()
+						var count=0;
+						response.data.forEach(function(item){
+						count++;
+						$(`<tr>
+								<td><input type="checkbox" value="`+item.id+`"/></td>
+								<td>`+item.username+`</td>
+								<td>`+item.realname+`</td>
+								<td>`+item.gender+`</td>
+								<td>`+item.status+`</td>
+								
+								<td><i class="fa fa-trash" aria-hidden="true"></i></td>
+						   </tr>
+							`).appendTo($("tbody"));
+					})
+					$(".total").text(count);
+					})
+					break;
+				case "status":var url=baseURL+"/CustomerService/findByEducation";
+					var data={
+						status:$(this).val(),
+					}
+					
+					$.get(url,data,function(response){
+						$("tbody").empty()
+						var count=0;
+						// console.log(response.data)
+						response.data.forEach(function(item){
+						count++;
+						$(`<tr>
+								<td><input type="checkbox" value="`+item.id+`"/></td>
+								<td>`+item.username+`</td>
+								<td>`+item.realname+`</td>
+								<td>`+item.gender+`</td>
+								<td>`+item.status+`</td>
+								
+								<td><i class="fa fa-trash" aria-hidden="true"></i></td>
+						   </tr>
+							`).appendTo($("tbody"));
+					})
+					$(".total").text(count);
+					})
+					break;
+			}
+		})
+		// 根据用户名查询
+		$("#btn_return").click(function(){
+			$("#btn_return").css("display","none");
+			reload();
+		})
+		$("button[type=submit]").on("click",function(){
+			
+			var url=baseURL+"/CustomerService/findByUsername";
+			var username=$("#search").val();
+			var data={
+				username:username,
+			}
+			$.get(url,data,function(response){
+				// console.log(response.data)
+				if(response.data.length==0){
+					
+					$("#modal").css("display","block")
+				}else{	
+						$("#btn_return").css("display","block")
+						$("tbody").empty()
+						var count=0;
+						response.data.forEach(function(item){
+							// console.log(item)
+							count++;
+							
+							$(`<tr>
+									<td><input type="checkbox" value="`+item.id+`"/></td>
+									<td>`+item.username+`</td>
+									<td>`+item.realname+`</td>
+									<td>`+item.gender+`</td>
+									<td>`+item.status+`</td>
+									
+									<td><i class="fa fa-trash" aria-hidden="true"></i></td>
+							   </tr>
+								`).appendTo($("tbody"));
+							
+						})
+						$(".total").text(count);		
+							}
+			})
+
+		})
+		$(".closes").click(function(){
+			$("#modal").css("display","none")
+		})
+		// 添加用户
+		$(".btn_input").click(function(){
+			$("#exampleModal").css("display","none")
+			var url=baseURL+"/CustomerService/saveOrUpdate";
+			var username=$("#contactPhone").val();
+			var realname=$("#inputname").val();
+			var gender=$("input[type=radio]:checked").val();
+			// console.log(gender)
+			var data={
+				username:username,
+				realname:realname,
+				gender:gender,
+			}
+			$.post(url,data,function(response){
+				if(response.status==200){
+
+				}else{
+					console.log(response);
+				}
+				reload();
+			})
+			
+		})
+	})
+</script>

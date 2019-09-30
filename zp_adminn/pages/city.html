@@ -1,0 +1,83 @@
+<div>
+	<div class="bg-dark bg"><span class=" text-white">北京</span></div>
+	<div class="bg bg-w border-left border-bottom border-right">
+	<!-- 添加模块 -->
+	
+	</div>
+</div>
+	
+<style>
+	.bg{
+		/*margin:10px;
+		margin-bottom: 0px;*/
+	}
+	.bg-w{
+		/*padding: 10px;*/
+	}
+	.bg>span{
+		display: inline-block;
+		line-height: 3em;
+		/*padding: 10px;*/
+
+	}
+	.add_num{
+		display: none ;
+	}
+	.add_cont{
+		display: inline-block;
+	}
+</style>
+<script>
+	$(function(){
+		var baseURL="http://203.195.246.58:7777";
+		function reload(){
+			$(".bg-w").empty();
+			var url=baseURL+"/City/findAll";
+			$.get(url,function(response){
+				
+				response.data.forEach(function(item){
+					// console.log(item);
+					$(`<div class="city d-inline-block btn">`+item.name+`</div>`).appendTo(".bg-w")
+				})
+				$(`<button class="btn add_btn"><a href="#" class="add_btn">添加</a></button>`).appendTo(".bg-w");
+				$(`<div class="add_num">
+					<div class="form-group row add_cont">
+				    <div class="col">
+					   <input type="text" class="form-control" id="inputCity" placeholder="城市">
+					   
+				    </div>
+					<!-- <button class="btn btn-primary " id="add_input">添加</button> -->
+					</div>
+					<button class="btn btn-primary " id="add_input">添加</button>
+				</div>`).appendTo(".bg-w");
+
+			})
+		}
+		reload()
+		//添加
+		$(".bg-w").on("click","a",function(){
+			if(this.className="add_btn"){
+				$(".add_btn").css("display","none")
+				$(".add_num").css("display","inline-block");
+				
+				$("#add_input").on("click",function(){
+					$(".add_btn").css("display","inline-block")
+					$(".add_num").css("display","none");
+					var url=baseURL+"/City/saveOrUpdate";
+					var data={
+						name:$("#inputCity").val(),
+					}
+					$.post(url,data,function(response){
+						if(response.status==200){
+
+						}else{
+							console.log(response);
+						}
+
+					})
+					reload();
+				})
+			}
+		})
+	})
+</script>

@@ -1,0 +1,165 @@
+<div>
+	<button type="button" id="btn_return" class="btn btn-primary text-center">
+			  返回
+	</button>
+	<div class="row">
+		<!-- 选择 -->
+	    	<div class="select col-2">
+				 <div class="form-group ">
+				      <select id="gender" class="form-control select_d">
+				     	 
+				      </select>
+			      </div>
+			</div>
+			
+	</div>
+		
+	 	<table class="table text-center">
+		  <thead class="thead-dark ">
+		    <tr>
+		      <th scope="col">#</th>
+		      <th scope="col">福利名称</th>
+		      <th scope="col">状态</th>
+		      <th scope="col">操作</th>
+		     
+		    </tr>
+		  </thead>
+		  <tbody>
+			   
+		  </tbody>
+		</table>
+	<button type="button" id="btn_del" class="btn btn-danger text-center">
+			  删除
+	</button>
+</div>
+<style>
+	#btn_return{
+		float: right;
+		display: none;
+	}
+	/*.do{
+		width: 50px;
+		margin: auto;
+	}*/
+</style>
+<script>
+	$(function(){
+		var baseURL="http://203.195.246.58:7777";
+		function reload(){
+			var url=baseURL+"/Welfare/findAll";
+			// var arr=[];
+			$.get(url,function(response){
+				$("tbody").empty()
+				response.data.forEach(function(item,index){
+					// console.log(item);
+					if(item.status=="被冻结"){
+						$(`<tr>
+							<td class=""><input type="checkbox" value="`+item.id+`" /></td>
+							<td class="">`+item.name+`</td>
+							<td class="status-h text-warning">`+item.status+`</td>
+							<td class="do-p"><button class="btn do-h text-white bg-success">恢复</button></td>
+						</tr>`).appendTo("tbody");
+
+					}else if(item.status=="使用中"){
+						$(`<tr>
+							<td class=""><input type="checkbox" value="`+item.id+`" /></td>
+							<td class="name$">`+item.name+`</td>
+							<td class="status-d text-success">`+item.status+`</td>
+							<td class="do-p"><button class="btn do-d text-white bg-warning">冻结</button></td>
+						</tr>`).appendTo("tbody");
+					}
+					
+
+						
+						
+					
+				})
+				
+			})
+		}
+		reload();
+		// 恢复与冻结
+		$("tbody").on("click","button",function(){
+			// console.log(this);
+			switch(this.className){
+				case "btn do-h text-white bg-success":var url=baseURL+"/Welfare/saveOrUpdate";
+				
+					var id=$(this).parents("tr").children()[0].firstElementChild.value;
+					var name=$(this).parents("tr").children()[1].innerText;
+					// console.log(id)
+					var data={
+						id:id,
+						name:name,
+						status:"使用中"
+					}
+					$.post(url,data,function(response){
+						if(response.status==200){
+
+						}else{
+							console.log(response)
+						}
+						reload();
+					})
+					break;
+				case "btn do-d text-white bg-warning":var url=baseURL+"/Welfare/saveOrUpdate";
+				
+					var id=$(this).parents("tr").children()[0].firstElementChild.value;
+					var name=$(this).parents("tr").children()[1].innerText;
+					// console.log(name)
+					var data={
+						id:id,
+						name:name,
+						status:"被冻结"
+					}
+					$.post(url,data,function(response){
+						if(response.status==200){
+
+						}else{
+							console.log(response)
+						}
+						reload();
+					})
+					break;
+
+			}
+		})
+
+		// //批量删除 
+		// $("#btn_del").on("click",function(){
+		// 	var url=baseURL+"/Welfare/deleteById";
+		// 	var ids=$("input:checkbox").filter(":checked").map(function(index,item){
+		// 	// console.log(item);	
+		// 		return $(item).val();
+
+		// 	}).toArray();
+		
+		// 	console.log(ids);
+		// 		var data="";
+		// 		for(var key in ids){
+		// 		var id=ids[key];
+		// 		if(key==0){
+		// 			data+="ids="+id
+		// 		}else{
+		// 			data+="&ids="+id
+		// 		}
+		// 	}
+		// 	$.ajax({
+		// 		url:url,
+		// 		data:data,
+		// 		method:"post",
+		// 		success:function(result){
+		// 		if(result.status==200){
+		// 			alert(result.message);
+					
+		// 		}else{
+		// 			alert(result.status);
+		// 			}
+		// 		}
+
+		// 	})
+		// 	reload();
+		// })
+
+		
+	})
+</script>
