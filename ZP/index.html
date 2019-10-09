@@ -392,7 +392,7 @@
                 $("#con_menu").empty();
                 response.data.forEach(function(item){
                     // console.log(item)
-                    // if(item.auditStatus=="审核通过"){
+                    if(item.auditStatus=="审核通过"){
                         $(` <div class="m">
                         <h4>`+item.title+`</h4>
                         <div class="m_1">`+item.salary+`元/月</div>
@@ -411,7 +411,7 @@
                         
                     </div>`).appendTo($("#con_menu"));
                
-                    // }
+                    }
                 })
             })
         }
@@ -474,6 +474,8 @@
                 // console.log(response.data.length)
                 if(response.data.length==0){
                     alert("不存在该工作")
+                    reemploy();
+                     $("#ss").val("")
                 }else{
                      response.data.forEach(function(item){
                         // if(item.auditStatus=="审核通过"){
@@ -618,17 +620,17 @@
             var birth=$("#inputbirth").val();
             var workTime=$("#inputexp").val();
             var gender=$("input[type=radio]:checked").val()
-            var url=baseURL+"/Jobhunter/findAll";
-            $.get(url,function(response){
-               response.data.forEach(function(item){
-                     if(telephone==item.telephone){
-                        id=item.id;
-                     }
-               })
-               if(id){
-                        
+            // var url=baseURL+"/Jobhunter/findAll";
+            // $.get(url,function(response){
+            //    response.data.forEach(function(item){
+            //          if(telephone==item.telephone){
+            //             id=item.id;
+            //          }
+            //    })
+               // if(id){
+                    if(!telephone==0){    
                        var data={
-                            id:id,
+                            // id:id,
                             employmentId:employmentId,
                             birth:birth,
                             education:education,
@@ -638,25 +640,25 @@
                             username:username,
                             workTime:workTime,
                         }
-                       
-                    }else {
-                        var data={
+                       }
+                    // }else {
+                    //     var data={
                            
-                            employmentId:employmentId,
-                            birth:birth,
-                            education:education,
-                            gender:gender,
-                            realname:realname,
-                            telephone:telephone,
-                            username:username,
-                            workTime:workTime,
-                        }
-                    }
-                    var url=baseURL+"/Jobhunter/quickRegistration";
-                     $.post(url,data,function(response){
-
+                    //         employmentId:employmentId,
+                    //         birth:birth,
+                    //         education:education,
+                    //         gender:gender,
+                    //         realname:realname,
+                    //         telephone:telephone,
+                    //         username:username,
+                    //         workTime:workTime,
+                    //     }
+                    // }
+                    var url1=baseURL+"/Jobhunter/quickRegistration";
+                    $.post(url1,data,function(response){
+                        console.log(response.status);
                         })
-            })
+            // })
              
             $("#exampleModal").css("display","none");
        })

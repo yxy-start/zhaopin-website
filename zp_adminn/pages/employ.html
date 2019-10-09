@@ -36,7 +36,7 @@
 			$.get(url,function(response){
 				
 				response.data.forEach(function(item){
-					// console.log(item);
+					// console.log(item.id);
 					$(`<div class="city d-inline-block btn">`+item.name+`</div>`).appendTo(".bg-w")
 				})
 				$(`<button class="btn add_btn"><a href="#" class="add_btn">添加</a></button>`).appendTo(".bg-w");

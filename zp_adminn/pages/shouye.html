@@ -107,7 +107,7 @@
 		$("#business").text(count);
 	})
 	// 查询简历数
-	var url1=baseURL+"/Jobhunter/findAll";
+	var url1=baseURL+"/EmploymentJobhunter/findAllWithJobhAndEmpl";
 	var count2
 	$.get(url1,function(response){
 		count2=response.data.length;
@@ -116,9 +116,9 @@
 	console.log(count2);
 	// 查找用户数
 	
-	var url=baseURL+"/CustomerService/findAll";
+	var url=baseURL+"/Jobhunter/findAll";
 	$.get(url,function(response){
-		$("#custemer").text(response.data.length)
+		$("#custemer").text(response.data.length);
 	})
 	// 查找浏览数
 	var url=baseURL+"/Browse/findAll";

@@ -113,12 +113,13 @@ height: 90px;}
 #si{
     position: absolute;
     top:10px;
-    left: 10px;
+    right:92px;
 }
 .s_search li a{color: #666666;}
 #ss{
     width: 426px;
     height: 36px;
+    padding-left: 10px;
     background: inherit;
     background-color: rgba(255, 255, 255, 1);
     box-sizing: border-box;
@@ -134,7 +135,7 @@ height: 90px;}
     float: left;
 }
 #sb{
-        width: 80px;
+    width: 80px;
     height: 36px;
     background: inherit;
     background-color: rgba(18, 143, 237, 1);

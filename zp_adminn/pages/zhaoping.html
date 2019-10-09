@@ -307,7 +307,7 @@ function jobcompany(){
 			$.get(url,function(response){
 				$("tbody").empty();
 				$(".select select").empty();
-				
+				$(`<option value="">职位</option>`).appendTo(".select_d");
 				var arring=[];
 				var arred=[];
 				response.data.forEach(function(item,index){
@@ -534,9 +534,9 @@ function jobcompany(){
 		$.get(url,data,function(response){
 			$("tbody").empty();
 			response.data.forEach(function(item,index){
-				// console.log(item);
+				//..........................................有问题，找到所有的auditStatus=null
 				if(item.auditStatus=="审核通过"){	
-				if(item.status=="招聘中"){
+					if(item.status=="招聘中"){
 						$(` <tr>
 						    	<td> <input type="checkbox" value="`+item.id+`"> </td>
 						    	<td class="name">`+item.title+`</td>
